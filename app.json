@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Entry Payment",
+    "slug": "entry-payment",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "entrypayment",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": { "supportsTablet": true, "bundleIdentifier": "com.enty.payment" },
+    "android": { "package": "com.enty.payment", "edgeToEdgeEnabled": true },
+    "web": { "bundler": "metro", "output": "static" },
+    "plugins": ["expo-router", "expo-secure-store"],
+    "experiments": { "typedRoutes": true }
+  }
+}
