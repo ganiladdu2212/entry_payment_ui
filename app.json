@@ -10,7 +10,11 @@
     "ios": { "supportsTablet": true, "bundleIdentifier": "com.enty.payment" },
     "android": { "package": "com.enty.payment", "edgeToEdgeEnabled": true },
     "web": { "bundler": "metro", "output": "static" },
-    "plugins": ["expo-router", "expo-secure-store"],
+    "plugins": [
+      "expo-router",
+      "expo-secure-store",
+      ["expo-image-picker", { "cameraPermission": "Allow Entry Payment to photograph payment receipts for verification." }]
+    ],
     "experiments": { "typedRoutes": true }
   }
 }
