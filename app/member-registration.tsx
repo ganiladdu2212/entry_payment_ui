@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet, Text, TextInput, useWindowDimensions, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthStore } from '@/features/auth/authStore';
-import type { CustomerSubscription } from '@/features/subscriptions/subscriptionApi';
+import { formatSubscriptionDuration, trainingExceedsMembership, type CustomerSubscription } from '@/features/subscriptions/subscriptionApi';
 import { useCustomerSubscriptions } from '@/features/subscriptions/useCustomerSubscriptions';
 import { MemberReview, type MemberReviewDetails } from '@/components/MemberReview';
 import { paymentStatuses, paymentStatusLabels, type PaymentStatus } from '@/features/subscriptions/paymentStatus';
@@ -39,15 +39,15 @@ function PlanCard({ plan, selected, onPress, narrow }: { plan: CustomerSubscript
       <Ionicons name={plan.typeOfPlan === 'PERSONAL_TRAINING' ? 'barbell-outline' : 'calendar-outline'} size={31} color={cyan} />
       <View style={styles.planInfo}>
         <Text style={styles.planName}>{plan.planName}</Text>
-        <Text style={styles.planMeta}>{plan.durationValue} {plan.durationValue === 1 ? 'month' : 'months'}</Text>
+        <Text style={styles.planMeta}>{formatSubscriptionDuration(plan.durationUnit, plan.durationValue)}</Text>
       </View>
       <View style={styles.divider} />
       <View style={styles.priceInfo}>
         <Text style={styles.price}>{money(plan.basePriceMinor, plan.currency)}</Text>
-        <Text style={styles.planMeta}>per {plan.durationValue === 1 ? 'month' : `${plan.durationValue} months`}</Text>
+        <Text style={styles.planMeta}>per {formatSubscriptionDuration(plan.durationUnit, plan.durationValue)}</Text>
       </View>
-      <View style={styles.divider} />
-      <View style={[styles.savings, plan.savingsMinor > 0 && styles.savingsActive]}>
+      {!narrow && <View style={styles.divider} />}
+      <View style={[styles.savings, narrow && styles.savingsNarrow, plan.savingsMinor > 0 && styles.savingsActive]}>
         <Text style={styles.savingsText}>{plan.savingsMinor > 0 ? `Save ${money(plan.savingsMinor, plan.currency)} · ${plan.savingsPercentage}%` : 'No savings'}</Text>
       </View>
     </Pressable>
@@ -73,6 +73,7 @@ export default function MemberRegistrationScreen() {
   const [paymentMode, setPaymentMode] = useState<'UPI' | 'CASH' | 'CARD'>('UPI');
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('PENDING');
   const narrow = width < 620;
+  const veryNarrow = width < 360;
 
   const membershipPlans = useMemo(() => (subscriptions.data ?? []).filter((plan) => plan.active && plan.typeOfPlan === 'MEMBERSHIP'), [subscriptions.data]);
   const trainingPlans = useMemo(() => (subscriptions.data ?? []).filter((plan) => plan.active && plan.typeOfPlan === 'PERSONAL_TRAINING'), [subscriptions.data]);
@@ -83,6 +84,8 @@ export default function MemberRegistrationScreen() {
 
   const membership = membershipPlans.find((plan) => plan.subscriptionId === membershipId);
   const training = trainingPlans.find((plan) => plan.subscriptionId === trainingId);
+  const durationError = trainingExceedsMembership(membership, training)
+    ? 'Personal training cannot last longer than your membership. Select a longer membership or a shorter training plan.' : '';
   const subtotal = (membership?.basePriceMinor ?? 0) + (training?.basePriceMinor ?? 0);
   const enteredDiscount = Math.max(Number(discount) || 0, 0);
   const discountAmount = discountMode === 'PERCENTAGE'
@@ -96,6 +99,7 @@ export default function MemberRegistrationScreen() {
     setSendNotice('');
     try {
       if (!customer) throw new Error('Please log in again before saving.');
+      if (durationError) throw new Error(durationError);
       const phone = mobile.replace(/[\s()-]/g, '');
       if (!/^[0-9]{10}$/.test(phone)) throw new Error('Enter a valid 10-digit mobile number. Go back to edit.');
       if (!membership && !training) throw new Error('Select a subscription plan.');
@@ -114,9 +118,12 @@ export default function MemberRegistrationScreen() {
         const request: SaveUserRequest = { ...values, typeOfMode: previous ? 'UPDATE' : 'CREATE', ...(previous ? { userId: previous.userId } : {}) };
         saved.current = { signature, user: await saveUserSubscriptions(request) };
       }
-      const url = subscriptionWhatsAppUrl(saved.current!.user);
+      const url = subscriptionWhatsAppUrl(saved.current!.user, customer.orgName?.trim() || customer.name?.trim() || 'our gym');
       setSendNotice('Saved successfully. WhatsApp will open with the details. Tap Send there to deliver the message. You can tap this button again to reopen WhatsApp without saving again.');
-      try { await Linking.openURL(url); }
+      try {
+        await Linking.openURL(url);
+        router.replace({ pathname: '/customer-details', params: { userId: String(saved.current!.user.userId) } });
+      }
       catch { setSendNotice('Saved successfully, but WhatsApp could not open. Tap the button again to retry opening it; your record will not be saved again.'); }
     } catch (error) {
       setSendNotice(error instanceof Error ? error.message : 'Unable to save the subscription.');
@@ -125,7 +132,9 @@ export default function MemberRegistrationScreen() {
       setSaving(false);
     }
   };
-  const openReview = () => setReview({
+  const openReview = () => {
+    if (durationError) return;
+    setReview({
     name: name.trim(),
     phone: '+91 ' + mobile.trim(),
     membership: membership?.planName ?? 'Not selected',
@@ -135,7 +144,8 @@ export default function MemberRegistrationScreen() {
       : money(discountAmount, membership?.currency),
     amount: money(finalAmount, membership?.currency),
     paymentMode, paymentStatus,
-  });
+    });
+  };
 
   return (
     <LinearGradient colors={['#00182f', '#00385e', '#00162d']} style={styles.page}>
@@ -147,23 +157,22 @@ export default function MemberRegistrationScreen() {
               <Pressable accessibilityLabel="Go back" onPress={() => router.back()} style={styles.backButton}>
                 <Ionicons name="chevron-back" size={30} color="#fff" />
               </Pressable>
-              <View style={styles.headerIcon}><Ionicons name="keypad-outline" size={40} color="#fff" /></View>
+              {!narrow && <View style={styles.headerIcon}><Ionicons name="keypad-outline" size={28} color="#fff" /></View>}
               <View style={styles.headerCopy}>
                 <Text style={styles.heading}>Enter <Text style={styles.accent}>Manually</Text></Text>
                 <Text style={styles.headingCaption}>Member details</Text>
               </View>
-              <View style={styles.registrationLabel}><Ionicons name="person-outline" size={28} color="#fff" /><Text style={styles.registrationText}>Member{`\n`}Registration</Text></View>
+              {!narrow && <View style={styles.registrationLabel}><Ionicons name="person-outline" size={23} color="#fff" /><Text style={styles.registrationText}>Member{`\n`}Registration</Text></View>}
             </View>
 
-            <View style={[styles.identityGrid, !narrow && styles.identityGridWide]}>
+            <View style={styles.identityGrid}>
               <View style={styles.fieldShell}>
                 <View style={styles.fieldIcon}><Ionicons name="person" size={26} color="#fff" /></View>
                 <View style={styles.fieldBody}><Text style={styles.fieldLabel}>Name</Text><TextInput value={name} onChangeText={setName} placeholder="Enter member name" placeholderTextColor="#a9c8e5" style={styles.input} /></View>
               </View>
               <View style={styles.fieldShell}>
                 <View style={styles.fieldIcon}><Ionicons name="call" size={27} color="#fff" /></View>
-                <View style={styles.country}><Text style={styles.flag}>🇮🇳</Text><Text style={styles.prefix}>+91</Text></View>
-                <View style={styles.fieldBody}><Text style={styles.fieldLabel}>Mobile Number</Text><TextInput value={mobile} onChangeText={setMobile} inputMode="tel" keyboardType="phone-pad" placeholder="Enter mobile number" placeholderTextColor="#a9c8e5" style={styles.input} /></View>
+                <View style={styles.fieldBody}><Text style={styles.fieldLabel}>Mobile Number</Text><View style={styles.phoneRow}><View style={styles.country}><Text style={styles.prefix}>+91</Text></View><TextInput accessibilityLabel="Mobile number" value={mobile} onChangeText={setMobile} inputMode="tel" keyboardType="phone-pad" placeholder="Enter mobile number" placeholderTextColor="#a9c8e5" style={[styles.input, { flex: 1 }]} /></View></View>
               </View>
             </View>
 
@@ -171,17 +180,19 @@ export default function MemberRegistrationScreen() {
             {subscriptions.isLoading ? <ActivityIndicator color={cyan} size="large" style={styles.loader} /> : null}
             {subscriptions.error instanceof Error ? <Text style={styles.error}>{subscriptions.error.message}</Text> : null}
             {!subscriptions.isLoading && membershipPlans.length === 0 ? <Text style={styles.empty}>No active membership plans found.</Text> : null}
-            {membershipPlans.map((plan) => <PlanCard key={plan.subscriptionId} plan={plan} selected={plan.subscriptionId === membershipId} onPress={() => setMembershipId(plan.subscriptionId)} narrow={narrow} />)}
+            {membershipPlans.map((plan) => <PlanCard key={plan.subscriptionId} plan={plan} selected={plan.subscriptionId === membershipId} onPress={() => setMembershipId(plan.subscriptionId)} narrow={veryNarrow} />)}
 
             <SectionTitle icon="barbell-outline" title="Personal Training" optional />
             <Pressable onPress={() => setTrainingId(undefined)} style={[styles.planCard, !trainingId && styles.planCardSelected, narrow && styles.planCardNarrow]}>
               <Radio selected={!trainingId} /><Ionicons name="person" size={31} color={cyan} />
               <View style={styles.planInfo}><Text style={styles.planName}>Not Selected</Text><Text style={[styles.planMeta, { color: cyan }]}>No personal training</Text></View>
             </Pressable>
-            {trainingPlans.map((plan) => <PlanCard key={plan.subscriptionId} plan={plan} selected={plan.subscriptionId === trainingId} onPress={() => setTrainingId(plan.subscriptionId)} narrow={narrow} />)}
+            {trainingPlans.map((plan) => <PlanCard key={plan.subscriptionId} plan={plan} selected={plan.subscriptionId === trainingId} onPress={() => setTrainingId(plan.subscriptionId)} narrow={veryNarrow} />)}
+            {durationError ? <Text accessibilityRole="alert" style={styles.error}>{durationError}</Text> : null}
 
-            <View style={[styles.summary, narrow && styles.summaryNarrow]}>
+            <View style={styles.summary}>
               <View style={styles.summaryTitle}><Ionicons name="document-text-outline" size={36} color="#fff" /><Text style={styles.summaryHeading}>Payment Summary</Text></View>
+              <View style={[styles.summaryBody, narrow && styles.summaryBodyNarrow]}>
               <View style={styles.summaryColumn}><Text style={styles.summaryLabel}>Membership</Text><Text style={styles.summaryValue}>{membership?.planName ?? 'Not selected'}</Text><Text style={styles.summaryPrice}>{money(membership?.basePriceMinor ?? 0, membership?.currency)}</Text></View>
               <View style={styles.summaryColumn}><Text style={styles.summaryLabel}>Personal Training</Text><Text style={styles.summaryValue}>{training?.planName ?? 'Not selected'}</Text><Text style={styles.summaryPrice}>{training ? money(training.basePriceMinor, training.currency) : '—'}</Text></View>
               <View style={styles.discountBox}>
@@ -201,14 +212,15 @@ export default function MemberRegistrationScreen() {
                 {discountAmount > 0 ? <Text style={styles.discountApplied}>Discount applied: −{money(discountAmount, membership?.currency)}</Text> : null}
               </View>
               <View style={styles.finalBox}><Text style={styles.finalLabel}>Final Amount</Text><Text style={styles.finalAmount}>{money(finalAmount, membership?.currency)}</Text></View>
+              </View>
             </View>
 
             <View style={styles.paymentModes}>
-              <Text style={styles.paymentTitle}>Mode of Payment</Text>
+              <Text style={[styles.paymentTitle, narrow && { width: '100%' }]}>Mode of Payment</Text>
               {(['UPI', 'CASH', 'CARD'] as const).map((mode) => <Pressable key={mode} onPress={() => setPaymentMode(mode)} style={styles.mode}><Radio selected={paymentMode === mode} /><Text style={styles.modeText}>{mode}</Text></Pressable>)}
             </View>
             <View style={styles.paymentModes}>
-              <Text style={styles.paymentTitle}>Payment Status</Text>
+              <Text style={[styles.paymentTitle, narrow && { width: '100%' }]}>Payment Status</Text>
               {paymentStatuses.map((status) => (
                 <Pressable key={status} accessibilityRole="radio" accessibilityLabel={paymentStatusLabels[status]} accessibilityState={{ checked: paymentStatus === status }} onPress={() => setPaymentStatus(status)} style={[styles.mode, { minHeight: 44 }]}>
                   <Radio selected={paymentStatus === status} />
@@ -217,7 +229,7 @@ export default function MemberRegistrationScreen() {
               ))}
             </View>
 
-            <Pressable accessibilityRole="button" onPress={openReview} disabled={!membership || !name.trim() || !mobile.trim()} style={({ pressed }) => [styles.reviewButton, (!membership || !name.trim() || !mobile.trim()) && styles.reviewDisabled, pressed && styles.reviewPressed]}>
+            <Pressable accessibilityRole="button" onPress={openReview} disabled={!!durationError || !membership || !name.trim() || !mobile.trim()} style={({ pressed }) => [styles.reviewButton, (!!durationError || !membership || !name.trim() || !mobile.trim()) && styles.reviewDisabled, pressed && styles.reviewPressed]}>
               <Ionicons name="logo-whatsapp" size={28} color="#d7e6f5" /><Text style={styles.reviewText}>Review & Send via WhatsApp</Text><Ionicons name="arrow-forward" size={23} color="#d7e6f5" />
             </Pressable>
           </View>
@@ -227,7 +239,7 @@ export default function MemberRegistrationScreen() {
   );
 }
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   page: { flex: 1 }, safeArea: { flex: 1 }, scrollContent: { padding: 16, paddingBottom: 28 }, content: { width: '100%', maxWidth: 1180, alignSelf: 'center', gap: 9 },
   header: { flexDirection: 'row', alignItems: 'center', gap: 13, marginBottom: 7 }, backButton: { width: 50, height: 50, borderRadius: 25, borderWidth: 2, borderColor: blue, alignItems: 'center', justifyContent: 'center' },
   headerIcon: { width: 72, height: 72, borderRadius: 36, borderWidth: 7, borderColor: cyan, alignItems: 'center', justifyContent: 'center', backgroundColor: '#043a67', shadowColor: cyan, shadowOpacity: .8, shadowRadius: 12, elevation: 7 },
@@ -242,4 +254,60 @@ const styles = StyleSheet.create({
   summary: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'stretch', gap: 14, marginTop: 15, padding: 16, borderWidth: 2, borderColor: blue, borderRadius: 18, backgroundColor: 'rgba(0,39,72,.92)' }, summaryNarrow: { flexDirection: 'column' }, summaryTitle: { flexDirection: 'row', alignItems: 'center', gap: 8, minWidth: 180 }, summaryHeading: { color: '#fff', fontSize: 19, fontWeight: '900' }, summaryColumn: { flex: 1, minWidth: 145, paddingLeft: 13, borderLeftWidth: 1, borderLeftColor: blue }, summaryLabel: { color: '#fff', fontSize: 13, fontWeight: '800' }, summaryValue: { color: '#d5e6f5', fontSize: 13 }, summaryPrice: { color: '#fff', fontSize: 17, fontWeight: '900' }, discountBox: { flex: 1.25, minWidth: 240, gap: 7 }, discountModes: { flexDirection: 'row', alignItems: 'center', gap: 8 }, discountMode: { minWidth: 68, minHeight: 38, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 7, paddingHorizontal: 9, borderWidth: 1, borderColor: '#2178a8', borderRadius: 10, backgroundColor: 'rgba(0,24,53,.65)' }, discountModeActive: { borderColor: cyan, backgroundColor: 'rgba(0,113,142,.65)' }, discountModeText: { color: '#fff', fontSize: 18, fontWeight: '900' }, discountInputRow: { minHeight: 44, flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: cyan, borderRadius: 10, overflow: 'hidden', backgroundColor: 'rgba(0,24,53,.7)' }, discountPrefix: { width: 38, textAlign: 'center', color: cyan, fontSize: 18, fontWeight: '900' }, discountInput: { flex: 1, height: 42, paddingHorizontal: 8, color: '#fff', backgroundColor: 'transparent' }, discountApplied: { color: '#69f3d7', fontSize: 12, fontWeight: '700' }, finalBox: { minWidth: 170, paddingLeft: 14, borderLeftWidth: 1, borderLeftColor: blue, justifyContent: 'center' }, finalLabel: { color: cyan, fontWeight: '800' }, finalAmount: { color: cyan, fontSize: 27, fontWeight: '900' },
   paymentModes: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-around', gap: 14, marginTop: 14, padding: 13, borderWidth: 2, borderColor: blue, borderRadius: 17, backgroundColor: 'rgba(0,23,49,.9)' }, paymentTitle: { color: '#fff', fontSize: 17, fontWeight: '900' }, mode: { flexDirection: 'row', alignItems: 'center', gap: 8 }, modeText: { color: '#fff', fontSize: 16, fontWeight: '800' },
   reviewButton: { minHeight: 58, marginTop: 13, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 16, borderRadius: 30, backgroundColor: '#177b9e' }, reviewDisabled: { opacity: .45, backgroundColor: '#7b9bb5' }, reviewPressed: { opacity: .8 }, reviewText: { color: '#eaf6ff', fontSize: 17, fontWeight: '800' },
+});
+
+const styles = StyleSheet.create({
+  ...baseStyles,
+  scrollContent: { padding: 14, paddingBottom: 32 },
+  content: { width: '100%', maxWidth: 780, alignSelf: 'center', gap: 8 },
+  header: { flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 12 },
+  backButton: { width: 44, height: 44, alignItems: 'center', justifyContent: 'center' },
+  headerIcon: { ...baseStyles.headerIcon, width: 56, height: 56, borderRadius: 28, borderWidth: 4 },
+  headerCopy: { flex: 1, minWidth: 0 },
+  heading: { color: '#fff', fontSize: 26, fontWeight: '700' },
+  headingCaption: { color: '#d6e8f9', fontSize: 14, marginTop: 3 },
+  fieldShell: { ...baseStyles.fieldShell, flex: undefined, minHeight: 70, borderWidth: 1, borderRadius: 14 },
+  fieldIcon: { ...baseStyles.fieldIcon, width: 48, height: 48, borderRadius: 24, margin: 8 },
+  fieldBody: { flex: 1, minWidth: 0, paddingRight: 12, gap: 2 },
+  fieldLabel: { color: '#fff', fontSize: 14, fontWeight: '600' },
+  input: { ...baseStyles.input, minWidth: 0, fontSize: 15, height: 34 },
+  phoneRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  country: { paddingRight: 10, borderRightWidth: 1, borderRightColor: blue },
+  prefix: { color: '#fff', fontSize: 14 },
+  sectionTitleRow: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginTop: 14, marginBottom: 3 },
+  sectionTitle: { color: '#fff', fontSize: 21, fontWeight: '700', flexShrink: 1 },
+  badge: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 14, backgroundColor: '#087bd1' },
+  badgeText: { color: '#fff', fontSize: 11, fontWeight: '600' },
+  planCard: { ...baseStyles.planCard, minHeight: 72, paddingHorizontal: 12, paddingVertical: 10, gap: 12, borderWidth: 1, borderRadius: 14 },
+  planCardSelected: { ...baseStyles.planCardSelected, shadowOpacity: .3, shadowRadius: 5, elevation: 2 },
+  planCardNarrow: { flexWrap: 'wrap', gap: 8, paddingHorizontal: 10 },
+  radio: { width: 23, height: 23, borderRadius: 12, borderWidth: 3, borderColor: '#f4f8ff', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  radioDot: { width: 11, height: 11, borderRadius: 6, backgroundColor: cyan },
+  planInfo: { flex: 1, minWidth: 0, gap: 4 },
+  planName: { color: '#fff', fontSize: 15, fontWeight: '600' },
+  planMeta: { color: '#d4e6f7', fontSize: 12, lineHeight: 17 },
+  priceInfo: { width: '23%', minWidth: 0, gap: 4 },
+  price: { color: '#fff', fontSize: 17, fontWeight: '700', flexShrink: 1 },
+  savings: { width: '23%', minWidth: 0, paddingHorizontal: 6, paddingVertical: 7, borderRadius: 10 },
+  savingsNarrow: { width: '100%', paddingVertical: 4 },
+  savingsText: { color: '#fff', fontSize: 11, lineHeight: 16, fontWeight: '500', textAlign: 'center' },
+  summary: { ...baseStyles.summary, flexDirection: 'column', flexWrap: 'nowrap', gap: 12, padding: 12, borderWidth: 1, borderRadius: 14 },
+  summaryTitle: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  summaryHeading: { color: '#fff', fontSize: 18, fontWeight: '600' },
+  summaryBody: { flexDirection: 'row', alignItems: 'stretch', gap: 10 },
+  summaryBodyNarrow: { flexWrap: 'wrap' },
+  summaryColumn: { flexGrow: 1, flexBasis: '21%', minWidth: 100, gap: 4 },
+  summaryPrice: { color: '#fff', fontSize: 15, fontWeight: '600' },
+  discountBox: { flexGrow: 1, flexBasis: '26%', minWidth: 150, gap: 7 },
+  discountMode: { ...baseStyles.discountMode, minWidth: 52, minHeight: 44, gap: 5, paddingHorizontal: 5 },
+  discountInput: { ...baseStyles.discountInput, minWidth: 0, fontSize: 12 },
+  discountPrefix: { ...baseStyles.discountPrefix, width: 22, fontSize: 14 },
+  finalBox: { flexGrow: 1, flexBasis: '21%', minWidth: 110, justifyContent: 'center', gap: 6 },
+  finalAmount: { color: cyan, fontSize: 24, fontWeight: '700', flexShrink: 1 },
+  paymentModes: { ...baseStyles.paymentModes, justifyContent: 'flex-start', borderWidth: 1, gap: 12, padding: 12, marginTop: 8 },
+  paymentTitle: { color: '#fff', fontSize: 14, fontWeight: '600', flexGrow: 1 },
+  mode: { flexDirection: 'row', alignItems: 'center', minHeight: 44, gap: 7 },
+  modeText: { color: '#fff', fontSize: 14, fontWeight: '500' },
+  reviewButton: { ...baseStyles.reviewButton, gap: 10, padding: 12 },
+  reviewText: { color: '#eaf6ff', fontSize: 15, fontWeight: '600', flexShrink: 1, textAlign: 'center' },
 });

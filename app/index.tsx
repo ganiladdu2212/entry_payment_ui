@@ -62,11 +62,11 @@ export default function LoginScreen() {
               <Text style={[styles.subtitle, compact && styles.subtitleCompact]}>Login to your account to continue</Text>
               <View style={[styles.inputShell, compact && styles.inputShellCompact, !!error && styles.inputShellError]}>
                 <View style={[styles.iconCircle, compact && styles.iconCircleCompact]}><Ionicons name="phone-portrait-outline" size={compact ? 20 : 24} color="#d7ecff" /></View><View style={[styles.inputDivider, compact && styles.inputDividerCompact]} />
-                <TextInput accessibilityLabel="Email or mobile number" autoCapitalize="none" autoComplete="username" autoCorrect={false} inputMode="email" placeholder="Mobile Number or Email" placeholderTextColor="#aac6ef" style={[styles.input, compact && styles.inputCompact]} value={identifier} onChangeText={setIdentifier} returnKeyType="next" />
+                <TextInput accessibilityLabel="Email or mobile number" autoCapitalize="none" autoComplete="username" autoCorrect={false} inputMode="email" placeholder="Mobile Number or Email" placeholderTextColor="#aac6ef" selectionColor="#00e5e5" cursorColor="#ffffff" style={[styles.input, compact && styles.inputCompact]} value={identifier} onChangeText={setIdentifier} returnKeyType="next" />
               </View>
               <View style={[styles.inputShell, compact && styles.inputShellCompact, !!error && styles.inputShellError]}>
                 <View style={[styles.iconCircle, compact && styles.iconCircleCompact]}><Ionicons name="lock-closed-outline" size={compact ? 20 : 24} color="#d7ecff" /></View><View style={[styles.inputDivider, compact && styles.inputDividerCompact]} />
-                <TextInput accessibilityLabel="Password" autoCapitalize="none" autoComplete="current-password" placeholder="Password" placeholderTextColor="#aac6ef" secureTextEntry={!showPassword} style={[styles.input, compact && styles.inputCompact]} value={password} onChangeText={setPassword} onSubmitEditing={submit} returnKeyType="go" />
+                <TextInput accessibilityLabel="Password" autoCapitalize="none" autoComplete="current-password" placeholder="Password" placeholderTextColor="#aac6ef" selectionColor="#00e5e5" cursorColor="#ffffff" secureTextEntry={!showPassword} style={[styles.input, compact && styles.inputCompact]} value={password} onChangeText={setPassword} onSubmitEditing={submit} returnKeyType="go" />
                 <Pressable accessibilityLabel={showPassword ? 'Hide password' : 'Show password'} hitSlop={12} onPress={() => setShowPassword((value) => !value)}><Ionicons name={showPassword ? 'eye-outline' : 'eye-off-outline'} size={compact ? 22 : 25} color="#91b7ea" /></Pressable>
               </View>
               {error ? <Text accessibilityRole="alert" style={styles.errorText}>{error}</Text> : null}
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
   inputShellCompact: { height: 52, borderRadius: 26, paddingHorizontal: 10, marginBottom: 10 },
   iconCircle: { width: 48, height: 48, borderRadius: 24, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,74,158,.65)' }, inputDivider: { width: 1, height: 34, backgroundColor: '#1d78bd', marginLeft: 16, marginRight: 18 },
   iconCircleCompact: { width: 38, height: 38, borderRadius: 19 }, inputDividerCompact: { height: 28, marginLeft: 10, marginRight: 12 },
-  input: { flex: 1, height: '100%', paddingVertical: 0, color: '#fff', backgroundColor: 'transparent', fontSize: 18 }, errorText: { color: '#ff9aad', marginTop: -5, marginBottom: 13, paddingHorizontal: 14, fontWeight: '600' },
+  input: { flex: 1, minWidth: 0, height: '100%', paddingVertical: 0, color: '#fff', backgroundColor: 'transparent', fontSize: 18 }, errorText: { color: '#ff9aad', marginTop: -5, marginBottom: 13, paddingHorizontal: 14, fontWeight: '600' },
   inputCompact: { fontSize: 16 },
   optionsRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 30, gap: 16 }, rememberRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   optionsRowCompact: { marginBottom: 16 }, optionsRowNarrow: { flexDirection: 'column', alignItems: 'flex-start', gap: 10 },

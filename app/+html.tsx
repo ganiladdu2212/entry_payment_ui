@@ -6,6 +6,8 @@ const globalStyles = `
   textarea {
     background-color: transparent !important;
     color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
     outline: none !important;
   }
 

@@ -50,7 +50,7 @@ export default function CustomersScreen() {
         refreshing={query.isRefetching} onRefresh={() => { if (customer) void refetch(); }}
         ListHeaderComponent={<View style={styles.header}>
           <Pressable accessibilityRole="button" style={styles.back} accessibilityLabel="Back to home" onPress={() => router.replace('/dashboard')}><Ionicons name="chevron-back" size={30} color="white" /></Pressable>
-          <Text style={[styles.title, compact && { fontSize: 29 }]}>Registered <Text style={styles.accent}>Customers</Text></Text>
+          <Text style={[styles.title, compact && { fontSize: 26 }]}>Registered <Text style={styles.accent}>Customers</Text></Text>
           <Text style={styles.subtitle}>View all registered customers and their{ '\n' }payment status.</Text>
           <View style={styles.tabs}>
             {(['ALL', ...paymentStatuses] as const).map(value => <Pressable key={value} accessibilityRole="button" accessibilityState={{ selected: status === value }} onPress={() => setStatus(value)} style={[styles.filter, compact && { flexBasis: '46%' }, status === value && styles.selected]}>
@@ -90,15 +90,15 @@ export default function CustomersScreen() {
 
 const styles = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#001522' },
-  content: { width: '100%', maxWidth: 1000, alignSelf: 'center', padding: 18, paddingBottom: 32, gap: 12 },
+  content: { width: '100%', maxWidth: 960, alignSelf: 'center', padding: 18, paddingBottom: 32, gap: 12 },
   header: { gap: 16, marginBottom: 12 },
-  title: { color: '#fff', fontSize: 38, fontWeight: '800' },
+  title: { color: '#fff', fontSize: 30, fontWeight: '700' },
   back: { minHeight: 44, width: 44, justifyContent: 'center' },
   accent: { color: '#00eee2', fontWeight: '700' },
-  subtitle: { color: '#a6cdf1', fontSize: 17, lineHeight: 25 },
+  subtitle: { color: '#a6cdf1', fontSize: 15, lineHeight: 22 },
   tabs: { flexDirection: 'row', alignItems: 'center', flexWrap: 'wrap', gap: 10 },
   selected: { backgroundColor: '#00eee2', borderColor: '#00eee2' },
-  selectedText: { color: '#001522', fontWeight: '800', fontSize: 17 },
+  selectedText: { color: '#001522', fontWeight: '700', fontSize: 15 },
   hint: { color: '#88aac4', fontSize: 13, flexShrink: 1 },
   filter: { flexGrow: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 12, minHeight: 50, padding: 10, borderRadius: 28, borderWidth: 1, borderColor: '#126185' },
   count: { minWidth: 34, padding: 6, borderRadius: 20, alignItems: 'center' },
@@ -107,12 +107,11 @@ const styles = StyleSheet.create({
   dateOption: { padding: 14, minHeight: 44 },
   badge: { alignSelf: 'flex-start', flexDirection: 'row', alignItems: 'center', gap: 8, paddingHorizontal: 14, paddingVertical: 9, borderWidth: 1, borderRadius: 25 },
   meta: { flexDirection: 'row', gap: 10, alignItems: 'center' },
-  card: { borderWidth: 1, borderColor: '#07698c', borderRadius: 18, padding: 18, backgroundColor: '#001d2e' },
+  card: { borderWidth: 1, borderColor: '#07698c', borderRadius: 16, padding: 16, backgroundColor: '#001d2e' },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   info: { flex: 1, minWidth: 0, gap: 7 },
-  name: { color: '#fff', fontSize: 21, fontWeight: '700' },
+  name: { color: '#fff', fontSize: 18, fontWeight: '700' },
   text: { color: '#afd2f4', fontSize: 15, lineHeight: 22 },
-  details: { marginTop: 15, paddingTop: 15, borderTopWidth: 1, borderTopColor: '#126185', gap: 8 },
   bottomTabs: { flexDirection: 'row', borderWidth: 1, borderColor: '#07698c', borderRadius: 18, padding: 16, gap: 16, alignItems: 'center', marginTop: 12 },
   bottomTab: { flex: 1, alignItems: 'center', gap: 6 },
   tabText: { textAlign: 'center' },
