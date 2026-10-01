@@ -25,7 +25,7 @@ function paymentFromUser(user: SavedUser): Payment {
   return {id:user.userId,name:user.name,mobile:`${user.countryCode} ${user.mobileNumber}`,createdAt,
     date:new Date(createdAt).toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata',day:'numeric',month:'short',year:'numeric'}),
     time:new Date(createdAt).toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit'}),
-    plan:plans.map(plan=>plan.planName).join(' + ')||'No plan selected',amount:Math.max(0,subtotal-discount),mode:subscription.paymentMode||'Not recorded',status:subscription.paymentStatus??'NOT_ONBOARDED'};
+    plan:plans.map(plan=>plan.planName).join(' + ')||'No plan selected',amount:Math.max(0,subtotal-discount),mode:subscription.paymentMode||'Not recorded',status:subscription.paymentStatus??'ENQUIRED'};
 }
 
 export default function PaymentsScreen() {
@@ -71,7 +71,7 @@ export default function PaymentsScreen() {
   });
   const received = payments.filter(payment => payment.status === 'RECEIVED');
   const pending = payments.filter(payment => payment.status === 'PENDING');
-  const notOnboarded = payments.filter(payment => payment.status === 'NOT_ONBOARDED');
+  const enquired = payments.filter(payment => payment.status === 'ENQUIRED');
   const newestPayment = payments[0];
   const oldestPayment = payments.at(-1);
   const dateRange = range ? `${dateLabel(range.start)}${range.end !== range.start ? ` – ${dateLabel(range.end)}` : ''}` : newestPayment && oldestPayment
@@ -91,11 +91,11 @@ export default function PaymentsScreen() {
       <View style={s.stats}>
         <View style={[s.stat, s.receivedStat]}><View style={s.statLabel}><View style={[s.statIcon, { backgroundColor: '#48efcb' }]}><Text style={s.rupee}>₹</Text></View><Text style={s.receivedText}>Total Received</Text></View><Text style={s.statAmount}>{money(received.reduce((sum, item) => sum + item.amount, 0))}</Text><Text style={s.receivedText}>{received.length} payments</Text></View>
         <View style={[s.stat, s.pendingStat]}><View style={s.statLabel}><View style={[s.statIcon, { backgroundColor: '#79caff' }]}><Ionicons name="time-outline" size={27} color="#0758a1" /></View><Text style={s.pendingText}>Pending</Text></View><Text style={s.statAmount}>{money(pending.reduce((sum, item) => sum + item.amount, 0))}</Text><Text style={s.pendingText}>{pending.length} payments</Text></View>
-        <View style={[s.stat, s.onboardedStat]}><View style={s.statLabel}><View style={[s.statIcon, { backgroundColor: '#be7cff' }]}><Ionicons name="person-outline" size={27} color="#4d1a84" /></View><Text style={s.onboardedText}>Not Onboarded</Text></View><Text style={s.statAmount}>{money(notOnboarded.reduce((sum, item) => sum + item.amount, 0))}</Text><Text style={s.onboardedText}>{notOnboarded.length} customers</Text></View>
+        <View style={[s.stat, s.onboardedStat]}><View style={s.statLabel}><View style={[s.statIcon, { backgroundColor: '#be7cff' }]}><Ionicons name="person-outline" size={27} color="#4d1a84" /></View><Text style={s.onboardedText}>Enquired</Text></View><Text style={s.statAmount}>{money(enquired.reduce((sum, item) => sum + item.amount, 0))}</Text><Text style={s.onboardedText}>{enquired.length} customers</Text></View>
       </View>
 
       <View style={s.searchRow}><View style={s.search}><Ionicons name="search-outline" size={27} color="#a9cff7" /><TextInput accessibilityLabel="Search payments" value={query} onChangeText={setQuery} placeholder="Search by customer, mobile, plan or payment mode..." placeholderTextColor="#85a7c5" style={s.input} /></View></View>
-      <View style={s.tabs}>{(['ALL', 'RECEIVED', 'PENDING', 'NOT_ONBOARDED'] as const).map(value => { const count = value === 'ALL' ? payments.length : payments.filter(payment => payment.status === value).length; const selected = filter === value; return <Pressable key={value} accessibilityRole="tab" accessibilityState={{ selected }} onPress={() => setFilter(value)} style={[s.tab, selected && s.tabSelected]}><Text style={[s.tabText, selected && s.tabTextSelected]}>{value === 'ALL' ? 'All' : paymentStatusLabels[value]}</Text><View style={s.count}><Text style={s.countText}>{count}</Text></View></Pressable>; })}</View>
+      <View style={s.tabs}>{(['ALL', 'RECEIVED', 'PENDING', 'ENQUIRED'] as const).map(value => { const count = value === 'ALL' ? payments.length : payments.filter(payment => payment.status === value).length; const selected = filter === value; return <Pressable key={value} accessibilityRole="tab" accessibilityState={{ selected }} onPress={() => setFilter(value)} style={[s.tab, selected && s.tabSelected]}><Text style={[s.tabText, selected && s.tabTextSelected]}>{value === 'ALL' ? 'All' : paymentStatusLabels[value]}</Text><View style={s.count}><Text style={s.countText}>{count}</Text></View></Pressable>; })}</View>
 
       {usersQuery.isLoading && <View style={s.empty}><ActivityIndicator size="large" color="#00e8e7" /><Text style={s.subtitle}>Loading payments...</Text></View>}
       {usersQuery.isError && <View style={s.empty}><Ionicons name="cloud-offline-outline" size={42} color="#ffad4d" /><Text style={s.subtitle}>Unable to load payments.</Text><Pressable accessibilityRole="button" onPress={() => void usersQuery.refetch()} style={s.retryButton}><Text style={s.retryText}>Try again</Text></Pressable></View>}

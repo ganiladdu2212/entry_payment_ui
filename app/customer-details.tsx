@@ -129,9 +129,9 @@ export default function CustomerDetails() {
   };
   return <SafeAreaView edges={['top']} style={s.page}><ScrollView contentContainerStyle={s.content}>
     <Pressable accessibilityRole="button" accessibilityLabel="Back to customers" style={s.action} onPress={() => router.back()}><Ionicons name="chevron-back" size={30} color="white" /></Pressable>
-    <View style={s.headerRow}><View style={{ flex: 1, minWidth: 200, gap: 8 }}><Text style={s.heading}>Registered <Text style={s.cyan}>Customer Details</Text></Text>
-    <Text style={s.text}>View complete information about your registered customer.</Text></View>
-    <View style={s.remaining}><Ionicons name="time-outline" size={32} color="#00ede0" /><View><Text style={s.cyan}>Remaining</Text><Text style={s.title}>{remaining ?? '—'} Days</Text></View></View></View>
+    <View style={s.headerRow}><View style={{ flex: 1, minWidth: 200, gap: 8 }}><Text style={s.heading}>{subscription?.paymentStatus === 'ENQUIRED' ? 'Enquired' : 'Registered'} <Text style={s.cyan}>Customer Details</Text></Text>
+    <Text style={s.text}>{subscription?.paymentStatus === 'ENQUIRED' ? 'View complete information about your enquired customer.' : 'View complete information about your registered customer.'}</Text></View>
+    {subscription && subscription.paymentStatus !== 'ENQUIRED' && <View style={s.remaining}><Ionicons name="time-outline" size={32} color="#00ede0" /><View><Text style={s.cyan}>Remaining</Text><Text style={s.title}>{remaining ?? '—'} Days</Text></View></View>}</View>
     {!customer ? <Text style={s.text}>Please log in to view customer details.</Text> : !Number.isSafeInteger(id) || id < 1 ? <Text style={s.text}>Invalid customer link.</Text> : query.isPending ? <ActivityIndicator color="#00e7df" /> : query.isError ? <Pressable onPress={() => void query.refetch()}><Text style={s.text}>Unable to load customer. Tap to retry.</Text></Pressable> : null}
     {user && <>
       <View style={[s.panel, s.profile]}>

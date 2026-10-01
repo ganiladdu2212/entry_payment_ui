@@ -6,10 +6,10 @@ import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View, useWind
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthStore } from '@/features/auth/authStore';
 import { getUsersByCustomer } from '@/features/subscriptions/userSubscriptionApi';
-import { normalizePaymentStatus, paymentStatuses, type PaymentStatus } from '@/features/subscriptions/paymentStatus';
+import { normalizePaymentStatus, type PaymentStatus } from '@/features/subscriptions/paymentStatus';
 
-const labels = { RECEIVED: 'Paid', PENDING: 'Pending', NOT_ONBOARDED: 'Not Onboarded' };
-const colors = { RECEIVED: '#00e5cb', PENDING: '#ffc331', NOT_ONBOARDED: '#9bc8f8' };
+const labels: Record<PaymentStatus,string> = { RECEIVED: 'Paid', PENDING: 'Pending', ENQUIRED: 'Enquired' };
+const colors: Record<PaymentStatus,string> = { RECEIVED: '#00e5cb', PENDING: '#ffc331', ENQUIRED: '#9bc8f8' };
 function StatusBadge({ status: rawStatus }: { status: PaymentStatus | null }) {
   const status = normalizePaymentStatus(rawStatus);
   const color = status ? colors[status] : '#88aac4';
@@ -35,6 +35,7 @@ export default function CustomersScreen() {
   const customer = useAuthStore(state => state.customer);
   const [days, setDays] = useState(0);
   const [status, setStatus] = useState<'ALL' | PaymentStatus>('ALL');
+  const [customerView, setCustomerView] = useState<'REGISTERED' | 'ENQUIRED'>('REGISTERED');
   const query = useQuery({ queryKey: ['users', customer?.custId], queryFn: () => getUsersByCustomer(customer!.custId), enabled: !!customer });
   const { refetch } = query;
   useFocusEffect(useCallback(() => { if (customer) void refetch(); }, [customer, refetch]));
@@ -43,21 +44,24 @@ export default function CustomersScreen() {
   const rangeStart = dayStart - (days - 1) * 86400000;
   const shortDate = (time: number) => new Date(time).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata', day: 'numeric', month: 'short', year: 'numeric' });
   const datedUsers = (query.data ?? []).filter(user => !days || (createdDate(user.createdDate).getTime() >= rangeStart && createdDate(user.createdDate).getTime() < dayStart + 86400000));
-  const users = datedUsers.filter(user => status === 'ALL' || user.subscription.paymentStatus === status);
+  const registeredUsers=datedUsers.filter(user=>user.subscription.paymentStatus!=='ENQUIRED');
+  const enquiredUsers=datedUsers.filter(user=>user.subscription.paymentStatus==='ENQUIRED');
+  const viewUsers=customerView==='ENQUIRED'?enquiredUsers:registeredUsers;
+  const users = viewUsers.filter(user => status === 'ALL' || user.subscription.paymentStatus === status);
   return (
     <SafeAreaView edges={['top']} style={styles.page}>
       <FlatList data={users} keyExtractor={item => String(item.userId)} contentContainerStyle={styles.content}
         refreshing={query.isRefetching} onRefresh={() => { if (customer) void refetch(); }}
         ListHeaderComponent={<View style={styles.header}>
           <Pressable accessibilityRole="button" style={styles.back} accessibilityLabel="Back to home" onPress={() => router.replace('/dashboard')}><Ionicons name="chevron-back" size={30} color="white" /></Pressable>
-          <Text style={[styles.title, compact && { fontSize: 26 }]}>Registered <Text style={styles.accent}>Customers</Text></Text>
-          <Text style={styles.subtitle}>View all registered customers and their{ '\n' }payment status.</Text>
-          <View style={styles.tabs}>
-            {(['ALL', ...paymentStatuses] as const).map(value => <Pressable key={value} accessibilityRole="button" accessibilityState={{ selected: status === value }} onPress={() => setStatus(value)} style={[styles.filter, compact && { flexBasis: '46%' }, status === value && styles.selected]}>
+          <Text style={[styles.title, compact && { fontSize: 26 }]}>{customerView==='REGISTERED'?'Registered':'Enquired'} <Text style={styles.accent}>Customers</Text></Text>
+          <Text style={styles.subtitle}>{customerView==='REGISTERED'?'View registered customers and their payment status.':'View people who enquired but have not been onboarded yet.'}</Text>
+          {customerView==='REGISTERED'&&<View style={styles.tabs}>
+            {(['ALL', 'RECEIVED', 'PENDING'] as const).map(value => <Pressable key={value} accessibilityRole="button" accessibilityState={{ selected: status === value }} onPress={() => setStatus(value)} style={[styles.filter, compact && { flexBasis: '46%' }, status === value && styles.selected]}>
               <Text style={status === value ? styles.selectedText : styles.text}>{value === 'ALL' ? 'All' : labels[value]}</Text>
-              <View style={[styles.count, { backgroundColor: value === 'PENDING' ? '#302919' : value === 'RECEIVED' ? '#003135' : '#092b43' }, status === value && { backgroundColor: '#001522' }]}><Text style={{ color: value === 'PENDING' && status !== value ? colors.PENDING : '#00eee2', fontWeight: '700' }}>{datedUsers.filter(user => value === 'ALL' || user.subscription.paymentStatus === value).length}</Text></View>
+              <View style={[styles.count, { backgroundColor: value === 'PENDING' ? '#302919' : '#003135' }, status === value && { backgroundColor: '#001522' }]}><Text style={{ color: value === 'PENDING' && status !== value ? colors.PENDING : '#00eee2', fontWeight: '700' }}>{registeredUsers.filter(user => value === 'ALL' || user.subscription.paymentStatus === value).length}</Text></View>
             </Pressable>)}
-          </View>
+          </View>}
           <Pressable accessibilityRole="button" accessibilityState={{ expanded: dateOpen }} onPress={() => setDateOpen(!dateOpen)} style={styles.dateSelect}>
             <Ionicons name="calendar-outline" size={23} color="#a6cdf1" />
             <Text style={[styles.text, { flex: 1 }]}>{days ? `Last ${days} Days (${shortDate(rangeStart)} – ${shortDate(dayStart)})` : 'All time · Registration dates'}</Text>
@@ -66,7 +70,7 @@ export default function CustomersScreen() {
           {dateOpen && <View style={styles.dateMenu}>{[0, 7, 30].map(value => <Pressable key={value} accessibilityRole="button" accessibilityState={{ selected: days === value }} onPress={() => { setDays(value); setDateOpen(false); }} style={styles.dateOption}><Text style={days === value ? styles.accent : styles.text}>{value ? `Last ${value} days` : 'All time'}</Text></Pressable>)}</View>}
           {!!query.error && <View><Text accessibilityRole="alert" style={styles.text}>{query.error.message}</Text><Pressable onPress={() => void refetch()}><Text style={styles.accent}>Retry</Text></Pressable></View>}
         </View>}
-        ListEmptyComponent={query.isPending && customer ? <ActivityIndicator color="#00ede0" /> : <Text style={styles.subtitle}>{!customer ? 'Please log in to view your customers.' : query.isError ? '' : 'No registered customers in this period.'}</Text>}
+        ListEmptyComponent={query.isPending && customer ? <ActivityIndicator color="#00ede0" /> : <Text style={styles.subtitle}>{!customer ? 'Please log in to view your customers.' : query.isError ? '' : customerView==='ENQUIRED'?'No enquired customers in this period.':'No registered customers in this period.'}</Text>}
         renderItem={({ item }) => <View style={styles.card}>
           <Pressable accessibilityRole="button" accessibilityLabel={`View ${item.name}`} onPress={() => router.push({ pathname: '/customer-details', params: { userId: item.userId } })} style={styles.row}>
             <View style={styles.info}>
@@ -80,8 +84,8 @@ export default function CustomersScreen() {
           </Pressable>
         </View>}
         ListFooterComponent={<View style={styles.bottomTabs}>
-          <View style={styles.bottomTab}><Ionicons name="people-outline" size={30} color="#00eee2" /><Text style={[styles.accent, styles.tabText]}>Registered Customers</Text><View style={styles.underline} /></View>
-          <View accessibilityLabel="Enquired Customers, coming later" style={styles.bottomTab}><Ionicons name="person-add-outline" size={30} color="#9bc8f8" /><Text style={[styles.text, styles.tabText]}>Enquired Customers</Text><Text style={styles.hint}>Coming later</Text></View>
+          <Pressable accessibilityRole="tab" accessibilityState={{selected:customerView==='REGISTERED'}} onPress={()=>{setCustomerView('REGISTERED');setStatus('ALL');}} style={styles.bottomTab}><Ionicons name="people-outline" size={30} color={customerView==='REGISTERED'?'#00eee2':'#9bc8f8'} /><Text style={[customerView==='REGISTERED'?styles.accent:styles.text, styles.tabText]}>Registered Customers ({registeredUsers.length})</Text>{customerView==='REGISTERED'&&<View style={styles.underline} />}</Pressable>
+          <Pressable accessibilityRole="tab" accessibilityState={{selected:customerView==='ENQUIRED'}} onPress={()=>{setCustomerView('ENQUIRED');setStatus('ALL');}} style={styles.bottomTab}><Ionicons name="person-add-outline" size={30} color={customerView==='ENQUIRED'?'#00eee2':'#9bc8f8'} /><Text style={[customerView==='ENQUIRED'?styles.accent:styles.text, styles.tabText]}>Enquired Customers ({enquiredUsers.length})</Text>{customerView==='ENQUIRED'&&<View style={styles.underline} />}</Pressable>
         </View>}
       />
     </SafeAreaView>
