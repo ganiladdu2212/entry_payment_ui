@@ -1,0 +1,19 @@
+-- GLOB mismatch!
+-- GLOB mismatch!
+CMake Error at C:/Ganesh/Entry_Payment/entry_payment_ui/android/app/build/generated/autolinking/src/main/jni/Android-autolinking.cmake:16 (add_subdirectory):
+  add_subdirectory given source
+  "C:/Ganesh/Entry_Payment/entry_payment_ui/node_modules/react-native-worklets/android/build/generated/source/codegen/jni/"
+  which is not an existing directory.
+Call Stack (most recent call first):
+  C:/Ganesh/Entry_Payment/entry_payment_ui/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake:94 (include)
+  CMakeLists.txt:31 (include)
+
+
+CMake Error at C:/Ganesh/Entry_Payment/entry_payment_ui/node_modules/react-native/ReactAndroid/cmake-utils/ReactNative-application.cmake:97 (target_link_libraries):
+  Cannot specify link libraries for target "react_codegen_rnworklets" which
+  is not built by this project.
+Call Stack (most recent call first):
+  CMakeLists.txt:31 (include)
+
+
+ninja: error: rebuilding 'build.ninja': subcommand failed

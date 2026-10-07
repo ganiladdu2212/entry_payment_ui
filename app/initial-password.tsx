@@ -1,0 +1,17 @@
+import { useState } from 'react';
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
+import { changeInitialPassword } from '@/features/auth/authApi';
+import { useAuthStore } from '@/features/auth/authStore';
+import { tokenStorage } from '@/storage/tokenStorage';
+
+export default function InitialPasswordScreen() {
+  const router=useRouter(), displayName=useAuthStore(s=>s.displayName), clear=useAuthStore(s=>s.clear);
+  const [current,setCurrent]=useState(''),[next,setNext]=useState(''),[confirm,setConfirm]=useState(''),[error,setError]=useState(''),[busy,setBusy]=useState(false);
+  const submit=async()=>{ setError(''); if(!current||!next||!confirm)return setError('Complete all password fields.'); if(next.length<8)return setError('New password must contain at least 8 characters.'); if(next!==confirm)return setError('New passwords do not match.'); setBusy(true); try{await changeInitialPassword(current,next);await tokenStorage.remove();clear();router.replace('/');}catch(e){setError(e instanceof Error?e.message:'Unable to change password.');}finally{setBusy(false);} };
+  return <SafeAreaView style={s.page}><View style={s.card}><View style={s.icon}><Ionicons name="shield-checkmark" size={42} color="#00e9df" /></View><Text style={s.eyebrow}>FIRST LOGIN SECURITY</Text><Text style={s.title}>Welcome, {displayName || 'team member'}</Text><Text style={s.copy}>Change the temporary password before accessing the portal. This requirement cannot be skipped.</Text>
+    <TextInput value={current} onChangeText={setCurrent} secureTextEntry placeholder="Temporary password" placeholderTextColor="#779ab8" style={s.input}/><TextInput value={next} onChangeText={setNext} secureTextEntry placeholder="New password" placeholderTextColor="#779ab8" style={s.input}/><TextInput value={confirm} onChangeText={setConfirm} secureTextEntry placeholder="Confirm new password" placeholderTextColor="#779ab8" style={s.input}/>{!!error&&<Text style={s.error}>{error}</Text>}<Pressable disabled={busy} onPress={()=>void submit()} style={s.button}>{busy?<ActivityIndicator color="#002436"/>:<><Text style={s.buttonText}>Change Password</Text><Ionicons name="arrow-forward" size={22} color="#002436"/></>}</Pressable><Text style={s.note}>After changing it, sign in again with your new password.</Text></View></SafeAreaView>;
+}
+const s=StyleSheet.create({page:{flex:1,backgroundColor:'#001c2d',alignItems:'center',justifyContent:'center',padding:20},card:{width:'100%',maxWidth:520,backgroundColor:'#032c43',borderColor:'#00aeea',borderWidth:1,borderRadius:28,padding:28},icon:{width:76,height:76,borderRadius:38,borderWidth:2,borderColor:'#00e9df',alignItems:'center',justifyContent:'center',marginBottom:20},eyebrow:{color:'#00e9df',fontWeight:'800',letterSpacing:2},title:{color:'#fff',fontSize:30,fontWeight:'800',marginTop:8},copy:{color:'#a8cce9',fontSize:16,lineHeight:23,marginVertical:18},input:{height:56,borderRadius:14,borderWidth:1,borderColor:'#078eca',backgroundColor:'#00243a',color:'#fff',fontSize:16,paddingHorizontal:16,marginBottom:12},error:{color:'#ff9aab',marginBottom:12},button:{height:58,borderRadius:29,backgroundColor:'#00e5df',flexDirection:'row',gap:12,alignItems:'center',justifyContent:'center'},buttonText:{color:'#002436',fontSize:18,fontWeight:'800'},note:{color:'#83a8c6',textAlign:'center',marginTop:16}});

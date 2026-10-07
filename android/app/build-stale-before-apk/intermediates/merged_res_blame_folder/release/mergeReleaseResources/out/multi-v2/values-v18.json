@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.enty.payment.app-mergeReleaseResources-3:/values-v18/values-v18.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\HP\\.gradle\\caches\\9.3.1\\transforms\\f32acd10c74595aefd883fb0b342f87d\\workspace\\transformed\\appcompat-1.7.1\\res\\values-v18\\values-v18.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "48",
+                        "endOffsets": "99"
+                    }
+                }
+            ]
+        }
+    ]
+}

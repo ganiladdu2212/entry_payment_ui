@@ -1,0 +1,8 @@
+-- Configuring incomplete, errors occurred!
+See also "C:/Ganesh/Entry_Payment/entry_payment_ui/android/app/.cxx/RelWithDebInfo/323t5x41/arm64-v8a/CMakeFiles/CMakeOutput.log".
+See also "C:/Ganesh/Entry_Payment/entry_payment_ui/android/app/.cxx/RelWithDebInfo/323t5x41/arm64-v8a/CMakeFiles/CMakeError.log".
+ninja: Entering directory `C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\.cxx\RelWithDebInfo\323t5x41\arm64-v8a'
+[0/2] Re-checking globbed directories...
+[1/2] Re-running CMake...
+FAILED: build.ninja 
+C:\Users\HP\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\LocalCache\Local\Android\Sdk\cmake\3.22.1\bin\cmake.exe --regenerate-during-build -SC:\Ganesh\Entry_Payment\entry_payment_ui\node_modules\react-native\ReactAndroid\cmake-utils\default-app-setup -BC:\Ganesh\Entry_Payment\entry_payment_ui\android\app\.cxx\RelWithDebInfo\323t5x41\arm64-v8a

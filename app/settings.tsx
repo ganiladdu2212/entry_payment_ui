@@ -49,6 +49,8 @@ function Row({ title, caption, icon, onPress, disabled, children, danger }: {
 export default function SettingsScreen() {
   const router = useRouter();
   const customer = useAuthStore(state => state.customer);
+  const actorType = useAuthStore(state => state.actorType);
+  const activeBranch = useAuthStore(state => state.branch);
   const clear = useAuthStore(state => state.clear);
   const queryClient = useQueryClient();
   const themeMode = useThemeStore(state => state.mode);
@@ -164,12 +166,12 @@ export default function SettingsScreen() {
     </View>;
   })}</View>;
   return <SafeAreaView edges={['top']} style={s.page}><ScrollView contentContainerStyle={s.content}>
-    <View style={s.header}><Pressable accessibilityRole="button" accessibilityLabel="Back to home" style={s.back} onPress={() => router.replace('/dashboard')}><Ionicons name="chevron-back" size={30} color="#fff" /></Pressable><Ionicons name="settings" size={43} color="#00e5df" /><View style={s.headerCopy}><Text style={s.heading}>Settings</Text><Text style={s.caption}>Manage your gym, plans and app settings.</Text></View><View style={s.branch}><Ionicons name="location" size={26} color="#00e5df" /><View style={s.copy}><Text style={s.accent}>Organization</Text><Text style={s.rowTitle}>{customer?.orgName || 'Your organization'}</Text></View></View></View>
+    <View style={s.header}><Pressable accessibilityRole="button" accessibilityLabel="Back to home" style={s.back} onPress={() => router.replace('/dashboard')}><Ionicons name="chevron-back" size={30} color="#fff" /></Pressable><Ionicons name="settings" size={43} color="#00e5df" /><View style={s.headerCopy}><Text style={s.heading}>Settings</Text><Text style={s.caption}>Manage your gym, plans and app settings.</Text></View><Pressable onPress={() => router.push('/branch-management')} style={s.branch}><Ionicons name="location" size={26} color="#00e5df" /><View style={s.copy}><Text style={s.accent}>{activeBranch ? 'Selected Branch' : 'Organization'}</Text><Text style={s.rowTitle}>{activeBranch?.name || customer?.orgName || 'Your organization'}</Text></View></Pressable></View>
     {!customer ? <View style={s.card}><Row title="Sign in" caption="Sign in to view your account settings" icon="log-in-outline" onPress={() => router.replace('/')} /></View> : <>
       <Section title="Account" icon="person-outline">
         <Row title="Profile Information" caption={customer.name || 'View your account details'} icon="person" onPress={() => toggle('profile')}><View style={s.contacts}><View style={s.contact}><Text style={s.smallLabel}>Mobile Number</Text><Text selectable style={s.caption}>{customer.mobileNumber || 'Not provided'}</Text></View><View style={s.contact}><Text style={s.smallLabel}>Email Address</Text><Text selectable style={s.caption}>{customer.email || 'Not provided'}</Text></View></View></Row>
         {panel === 'profile' && <View style={s.expanded}><Text style={s.rowTitle}>{customer.name || 'Account profile'}</Text><Text style={s.caption}>Organization: {customer.orgName || 'Not provided'}</Text><Text style={s.caption}>Customer ID: {customer.custId}</Text><Text style={s.caption}>Profile editing will be available soon.</Text></View>}
-        <Row title="Change Password" caption="Verify your old password and choose a new one" icon="lock-closed" onPress={() => setPasswordOpen(true)} />
+        {actorType === 'OWNER' && <Row title="Change Password" caption="Verify your old password and choose a new one" icon="lock-closed" onPress={() => setPasswordOpen(true)} />}
         <Row title="Check-in / Check-out QR" caption="Show the QR code members scan for attendance" icon="qr-code-outline" onPress={() => setAttendanceQrOpen(true)} />
         <Row title="Gym Holidays" caption="Add closed dates and holiday purposes" icon="calendar-outline" onPress={() => setHolidaysOpen(true)} />
       </Section>
@@ -177,8 +179,8 @@ export default function SettingsScreen() {
       <Section title="Gym & Membership" icon="barbell-outline">
         <Row title="Membership Plans" caption={planCaption} icon="document-text" onPress={() => toggle('plans')} />{panel === 'plans' && (plans.isPending ? <View style={s.expanded}><ActivityIndicator color="#00e5df" /></View> : plans.isError ? <View style={s.expanded}><Pressable onPress={() => void plans.refetch()}><Text style={s.error}>Unable to load plans. Tap to retry.</Text></Pressable></View> : managedPlans)}
         <Row title="Pricing & Packages" caption="View plan prices and savings" icon="pricetag" onPress={() => toggle('pricing')} />{panel === 'pricing' && planDetails(true)}
-        <Row title="Branches & Locations" caption="Manage multiple branches and locations" icon="location" disabled />
-        <Row title="Staff & Trainers" caption="Manage staff, roles and permissions" icon="people" disabled />
+        <Row title="Branches & Locations" caption={activeBranch ? `Current: ${activeBranch.name}` : 'Create and select your facilities'} icon="location" onPress={() => router.push('/branch-management')} />
+        <Row title="Staff & Trainers" caption="Manage admins, employees, categories and permissions" icon="people" onPress={() => router.push('/branch-management')} />
       </Section>
       <Section title="App Preferences" icon="phone-portrait-outline">
         <Row title="Notifications" caption="Notification preferences coming soon" icon="notifications" disabled><Switch accessibilityLabel="Notifications unavailable" disabled value={false} trackColor={{false:'#3b536e'}} /></Row>

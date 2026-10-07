@@ -10,7 +10,7 @@ import { useThemeStore } from '@/theme/themeStore';
 
 export default function RootLayout() {
   const segments = useSegments();
-  const showFooter = segments.length > 0 && segments[0] !== 'check-in-check-out';
+  const showFooter = segments.length > 0 && !['', 'index', 'check-in-check-out', 'initial-password'].includes(segments[0]);
   const mode = useThemeStore(state => state.mode);
   const hydrateTheme = useThemeStore(state => state.hydrate);
   const colors = appPalette(mode);
@@ -31,6 +31,8 @@ export default function RootLayout() {
           <Stack.Screen name="settings" />
           <Stack.Screen name="payments" />
           <Stack.Screen name="check-in-check-out" />
+          <Stack.Screen name="initial-password" />
+          <Stack.Screen name="branch-management" />
         </Stack>
         {showFooter ? <AppBottomNav /> : null}
       </View>

@@ -1,0 +1,394 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.enty.payment"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="36" />
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:2:3-64
+11-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:2:20-62
+12    <uses-permission
+12-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:3:3-142
+13        android:name="android.permission.READ_EXTERNAL_STORAGE"
+13-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:3:20-75
+14        android:maxSdkVersion="32" />
+14-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:3:76-102
+15    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+15-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:4:3-68
+15-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:4:20-66
+16    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+16-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:5:3-75
+16-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:5:20-73
+17    <uses-permission android:name="android.permission.VIBRATE" />
+17-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:6:3-63
+17-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:6:20-61
+18    <uses-permission
+18-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:7:3-143
+19        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+19-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:7:20-76
+20        android:maxSdkVersion="32" />
+20-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:7:77-103
+21
+22    <queries>
+22-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:8:3-14:13
+23        <intent>
+23-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:9:5-13:14
+24            <action android:name="android.intent.action.VIEW" />
+24-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:10:7-58
+24-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:10:15-56
+25
+26            <category android:name="android.intent.category.BROWSABLE" />
+26-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:11:7-67
+26-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:11:17-65
+27
+28            <data android:scheme="https" />
+28-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:12:7-37
+28-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:12:13-35
+29        </intent>
+30        <!-- Query open documents -->
+31        <intent>
+31-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:19:9-21:18
+32            <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
+32-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:20:13-79
+32-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:20:21-76
+33        </intent>
+34        <intent>
+34-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:19:9-23:18
+35
+36            <!-- Required for picking images from the camera roll if targeting API 30 -->
+37            <action android:name="android.media.action.IMAGE_CAPTURE" />
+37-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:22:13-73
+37-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:22:21-70
+38        </intent>
+39        <intent>
+39-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:24:9-28:18
+40
+41            <!-- Required for picking images from the camera if targeting API 30 -->
+42            <action android:name="android.media.action.ACTION_VIDEO_CAPTURE" />
+42-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:27:13-80
+42-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:27:21-77
+43        </intent>
+44        <intent>
+44-->[com.vanniktech:android-image-cropper:4.7.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\4516b65580cfb2c4817c9ceda3466b2d\workspace\transformed\android-image-cropper-4.7.0\AndroidManifest.xml:8:9-14:18
+45            <action android:name="android.intent.action.GET_CONTENT" />
+45-->[com.vanniktech:android-image-cropper:4.7.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\4516b65580cfb2c4817c9ceda3466b2d\workspace\transformed\android-image-cropper-4.7.0\AndroidManifest.xml:9:13-72
+45-->[com.vanniktech:android-image-cropper:4.7.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\4516b65580cfb2c4817c9ceda3466b2d\workspace\transformed\android-image-cropper-4.7.0\AndroidManifest.xml:9:21-69
+46
+47            <category android:name="android.intent.category.OPENABLE" />
+47-->[com.vanniktech:android-image-cropper:4.7.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\4516b65580cfb2c4817c9ceda3466b2d\workspace\transformed\android-image-cropper-4.7.0\AndroidManifest.xml:11:13-73
+47-->[com.vanniktech:android-image-cropper:4.7.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\4516b65580cfb2c4817c9ceda3466b2d\workspace\transformed\android-image-cropper-4.7.0\AndroidManifest.xml:11:23-70
+48
+49            <data android:mimeType="*/*" />
+49-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:12:7-37
+50        </intent>
+51    </queries>
+52    <!-- Required for picking images from camera directly -->
+53    <uses-permission android:name="android.permission.CAMERA" />
+53-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:8:5-65
+53-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:8:22-62
+54    <uses-permission android:name="android.permission.USE_BIOMETRIC" /> <!-- suppress DeprecatedClassUsageInspection -->
+54-->[androidx.biometric:biometric:1.1.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\d4438dfba40ddf8cccfeef406ce9821d\workspace\transformed\biometric-1.1.0\AndroidManifest.xml:24:5-72
+54-->[androidx.biometric:biometric:1.1.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\d4438dfba40ddf8cccfeef406ce9821d\workspace\transformed\biometric-1.1.0\AndroidManifest.xml:24:22-69
+55    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+55-->[androidx.biometric:biometric:1.1.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\d4438dfba40ddf8cccfeef406ce9821d\workspace\transformed\biometric-1.1.0\AndroidManifest.xml:27:5-74
+55-->[androidx.biometric:biometric:1.1.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\d4438dfba40ddf8cccfeef406ce9821d\workspace\transformed\biometric-1.1.0\AndroidManifest.xml:27:22-71
+56
+57    <permission
+57-->[androidx.core:core:1.18.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\5c765d91af00e520a48dbf79e3aab227\workspace\transformed\core-1.18.0\AndroidManifest.xml:22:5-24:47
+58        android:name="com.enty.payment.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+58-->[androidx.core:core:1.18.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\5c765d91af00e520a48dbf79e3aab227\workspace\transformed\core-1.18.0\AndroidManifest.xml:23:9-81
+59        android:protectionLevel="signature" />
+59-->[androidx.core:core:1.18.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\5c765d91af00e520a48dbf79e3aab227\workspace\transformed\core-1.18.0\AndroidManifest.xml:24:9-44
+60
+61    <uses-permission android:name="com.enty.payment.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+61-->[androidx.core:core:1.18.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\5c765d91af00e520a48dbf79e3aab227\workspace\transformed\core-1.18.0\AndroidManifest.xml:26:5-97
+61-->[androidx.core:core:1.18.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\5c765d91af00e520a48dbf79e3aab227\workspace\transformed\core-1.18.0\AndroidManifest.xml:26:22-94
+62
+63    <application
+63-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:3-32:17
+64        android:name="com.enty.payment.MainApplication"
+64-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:16-47
+65        android:allowBackup="true"
+65-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:162-188
+66        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+66-->[androidx.core:core:1.18.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\5c765d91af00e520a48dbf79e3aab227\workspace\transformed\core-1.18.0\AndroidManifest.xml:28:18-86
+67        android:dataExtractionRules="@xml/secure_store_data_extraction_rules"
+67-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:387-456
+68        android:enableOnBackInvokedCallback="false"
+68-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:284-327
+69        android:extractNativeLibs="false"
+70        android:fullBackupContent="@xml/secure_store_backup_rules"
+70-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:328-386
+71        android:icon="@mipmap/ic_launcher"
+71-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:81-115
+72        android:label="@string/app_name"
+72-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:48-80
+73        android:roundIcon="@mipmap/ic_launcher_round"
+73-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:116-161
+74        android:supportsRtl="true"
+74-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:221-247
+75        android:theme="@style/AppTheme"
+75-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:189-220
+76        android:usesCleartextTraffic="true" >
+76-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:15:248-283
+77        <meta-data
+77-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:16:5-83
+78            android:name="expo.modules.updates.ENABLED"
+78-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:16:16-59
+79            android:value="false" />
+79-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:16:60-81
+80        <meta-data
+80-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:17:5-102
+81            android:name="expo.modules.updates.ENABLE_BSDIFF_PATCH_SUPPORT"
+81-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:17:16-79
+82            android:value="true" />
+82-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:17:80-100
+83        <meta-data
+83-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:18:5-105
+84            android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH"
+84-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:18:16-80
+85            android:value="ALWAYS" />
+85-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:18:81-103
+86        <meta-data
+86-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:19:5-99
+87            android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS"
+87-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:19:16-79
+88            android:value="0" />
+88-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:19:80-97
+89
+90        <activity
+90-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:20:5-31:16
+91            android:name="com.enty.payment.MainActivity"
+91-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:20:15-43
+92            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode|smallestScreenSize|assetsPaths"
+92-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:20:44-165
+93            android:exported="true"
+93-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:20:287-310
+94            android:launchMode="singleTask"
+94-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:20:166-197
+95            android:screenOrientation="portrait"
+95-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:20:311-347
+96            android:theme="@style/Theme.App.SplashScreen"
+96-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:20:241-286
+97            android:windowSoftInputMode="adjustResize" >
+97-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:20:198-240
+98            <intent-filter>
+98-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:21:7-24:23
+99                <action android:name="android.intent.action.MAIN" />
+99-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:22:9-60
+99-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:22:17-58
+100
+101                <category android:name="android.intent.category.LAUNCHER" />
+101-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:23:9-68
+101-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:23:19-66
+102            </intent-filter>
+103            <intent-filter>
+103-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:25:7-30:23
+104                <action android:name="android.intent.action.VIEW" />
+104-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:10:7-58
+104-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:10:15-56
+105
+106                <category android:name="android.intent.category.DEFAULT" />
+106-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:27:9-67
+106-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:27:19-65
+107                <category android:name="android.intent.category.BROWSABLE" />
+107-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:11:7-67
+107-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:11:17-65
+108
+109                <data android:scheme="entrypayment" />
+109-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:12:7-37
+109-->C:\Ganesh\Entry_Payment\entry_payment_ui\android\app\src\main\AndroidManifest.xml:12:13-35
+110            </intent-filter>
+111        </activity>
+112
+113        <meta-data
+113-->[:expo-modules-core] C:\Ganesh\Entry_Payment\entry_payment_ui\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\release\processReleaseManifest\AndroidManifest.xml:9:9-11:89
+114            android:name="org.unimodules.core.AppLoader#react-native-headless"
+114-->[:expo-modules-core] C:\Ganesh\Entry_Payment\entry_payment_ui\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\release\processReleaseManifest\AndroidManifest.xml:10:13-79
+115            android:value="expo.modules.adapters.react.apploader.RNHeadlessAppLoader" />
+115-->[:expo-modules-core] C:\Ganesh\Entry_Payment\entry_payment_ui\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\release\processReleaseManifest\AndroidManifest.xml:11:13-86
+116        <meta-data
+116-->[:expo-modules-core] C:\Ganesh\Entry_Payment\entry_payment_ui\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\release\processReleaseManifest\AndroidManifest.xml:12:9-15:45
+117            android:name="com.facebook.soloader.enabled"
+117-->[:expo-modules-core] C:\Ganesh\Entry_Payment\entry_payment_ui\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\release\processReleaseManifest\AndroidManifest.xml:13:13-57
+118            android:value="true" />
+118-->[:expo-modules-core] C:\Ganesh\Entry_Payment\entry_payment_ui\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\release\processReleaseManifest\AndroidManifest.xml:14:13-33
+119
+120        <provider
+120-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:25:9-34:20
+121            android:name="expo.modules.filesystem.FileSystemFileProvider"
+121-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:26:13-74
+122            android:authorities="com.enty.payment.FileSystemFileProvider"
+122-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:27:13-74
+123            android:exported="false"
+123-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:28:13-37
+124            android:grantUriPermissions="true" >
+124-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:29:13-47
+125            <meta-data
+125-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:31:13-33:70
+126                android:name="android.support.FILE_PROVIDER_PATHS"
+126-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:32:17-67
+127                android:resource="@xml/file_system_provider_paths" />
+127-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:33:17-67
+128        </provider>
+129
+130        <service
+130-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:32:9-44:19
+131            android:name="com.google.android.gms.metadata.ModuleDependencies"
+131-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:33:13-78
+132            android:enabled="false"
+132-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:34:13-36
+133            android:exported="false" >
+133-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:35:13-37
+134            <intent-filter>
+134-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:37:13-39:29
+135                <action android:name="com.google.android.gms.metadata.MODULE_DEPENDENCIES" />
+135-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:38:17-94
+135-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:38:25-91
+136            </intent-filter>
+137
+138            <meta-data
+138-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:41:13-43:36
+139                android:name="photopicker_activity:0:required"
+139-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:42:17-63
+140                android:value="" />
+140-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:43:17-33
+141        </service>
+142        <!--
+143         Prevent external apps from directly invoking the underlying cropper library activity.
+144         The library declares this activity with exported="true".
+145        -->
+146        <activity
+146-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:50:9-53:48
+147            android:name="com.canhub.cropper.CropImageActivity"
+147-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:51:13-64
+148            android:exported="false" />
+148-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:52:13-37
+149        <activity
+149-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:54:9-58:48
+150            android:name="expo.modules.imagepicker.ExpoCropImageActivity"
+150-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:55:13-74
+151            android:exported="false"
+151-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:56:13-37
+152            android:theme="@style/Theme.AppCompat.DayNight" /> <!-- https://developer.android.com/guide/topics/manifest/provider-element.html -->
+152-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:57:13-60
+153        <provider
+153-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:60:9-68:20
+154            android:name="expo.modules.imagepicker.fileprovider.ImagePickerFileProvider"
+154-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:61:13-89
+155            android:authorities="com.enty.payment.ImagePickerFileProvider"
+155-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:62:13-75
+156            android:exported="false"
+156-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:63:13-37
+157            android:grantUriPermissions="true" >
+157-->[host.exp.exponent:expo.modules.imagepicker:57.0.20] C:\Users\HP\.gradle\caches\9.3.1\transforms\db2ab53ca5f43b1eadd58706a1994599\workspace\transformed\expo.modules.imagepicker-57.0.20\AndroidManifest.xml:64:13-47
+158            <meta-data
+158-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:31:13-33:70
+159                android:name="android.support.FILE_PROVIDER_PATHS"
+159-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:32:17-67
+160                android:resource="@xml/image_picker_provider_paths" />
+160-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:33:17-67
+161        </provider>
+162        <provider
+162-->[com.vanniktech:android-image-cropper:4.7.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\4516b65580cfb2c4817c9ceda3466b2d\workspace\transformed\android-image-cropper-4.7.0\AndroidManifest.xml:21:9-29:20
+163            android:name="com.canhub.cropper.CropFileProvider"
+163-->[com.vanniktech:android-image-cropper:4.7.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\4516b65580cfb2c4817c9ceda3466b2d\workspace\transformed\android-image-cropper-4.7.0\AndroidManifest.xml:22:13-63
+164            android:authorities="com.enty.payment.cropper.fileprovider"
+164-->[com.vanniktech:android-image-cropper:4.7.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\4516b65580cfb2c4817c9ceda3466b2d\workspace\transformed\android-image-cropper-4.7.0\AndroidManifest.xml:23:13-72
+165            android:exported="false"
+165-->[com.vanniktech:android-image-cropper:4.7.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\4516b65580cfb2c4817c9ceda3466b2d\workspace\transformed\android-image-cropper-4.7.0\AndroidManifest.xml:24:13-37
+166            android:grantUriPermissions="true" >
+166-->[com.vanniktech:android-image-cropper:4.7.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\4516b65580cfb2c4817c9ceda3466b2d\workspace\transformed\android-image-cropper-4.7.0\AndroidManifest.xml:25:13-47
+167            <meta-data
+167-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:31:13-33:70
+168                android:name="android.support.FILE_PROVIDER_PATHS"
+168-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:32:17-67
+169                android:resource="@xml/cropper_library_file_paths" />
+169-->[host.exp.exponent:expo.modules.filesystem:57.0.7] C:\Users\HP\.gradle\caches\9.3.1\transforms\e6028f9562b69c10230870879d7681c6\workspace\transformed\expo.modules.filesystem-57.0.7\AndroidManifest.xml:33:17-67
+170        </provider>
+171
+172        <uses-library
+172-->[androidx.window:window:1.5.1] C:\Users\HP\.gradle\caches\9.3.1\transforms\36bcbb0068cdd81a0c7ff0338c2d2026\workspace\transformed\window-1.5.1\AndroidManifest.xml:23:9-25:40
+173            android:name="androidx.window.extensions"
+173-->[androidx.window:window:1.5.1] C:\Users\HP\.gradle\caches\9.3.1\transforms\36bcbb0068cdd81a0c7ff0338c2d2026\workspace\transformed\window-1.5.1\AndroidManifest.xml:24:13-54
+174            android:required="false" />
+174-->[androidx.window:window:1.5.1] C:\Users\HP\.gradle\caches\9.3.1\transforms\36bcbb0068cdd81a0c7ff0338c2d2026\workspace\transformed\window-1.5.1\AndroidManifest.xml:25:13-37
+175        <uses-library
+175-->[androidx.window:window:1.5.1] C:\Users\HP\.gradle\caches\9.3.1\transforms\36bcbb0068cdd81a0c7ff0338c2d2026\workspace\transformed\window-1.5.1\AndroidManifest.xml:26:9-28:40
+176            android:name="androidx.window.sidecar"
+176-->[androidx.window:window:1.5.1] C:\Users\HP\.gradle\caches\9.3.1\transforms\36bcbb0068cdd81a0c7ff0338c2d2026\workspace\transformed\window-1.5.1\AndroidManifest.xml:27:13-51
+177            android:required="false" />
+177-->[androidx.window:window:1.5.1] C:\Users\HP\.gradle\caches\9.3.1\transforms\36bcbb0068cdd81a0c7ff0338c2d2026\workspace\transformed\window-1.5.1\AndroidManifest.xml:28:13-37
+178
+179        <provider
+179-->[androidx.emoji2:emoji2:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\46cdcc7574c7c6848e5ecae5bebf4abe\workspace\transformed\emoji2-1.4.0\AndroidManifest.xml:24:9-32:20
+180            android:name="androidx.startup.InitializationProvider"
+180-->[androidx.emoji2:emoji2:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\46cdcc7574c7c6848e5ecae5bebf4abe\workspace\transformed\emoji2-1.4.0\AndroidManifest.xml:25:13-67
+181            android:authorities="com.enty.payment.androidx-startup"
+181-->[androidx.emoji2:emoji2:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\46cdcc7574c7c6848e5ecae5bebf4abe\workspace\transformed\emoji2-1.4.0\AndroidManifest.xml:26:13-68
+182            android:exported="false" >
+182-->[androidx.emoji2:emoji2:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\46cdcc7574c7c6848e5ecae5bebf4abe\workspace\transformed\emoji2-1.4.0\AndroidManifest.xml:27:13-37
+183            <meta-data
+183-->[androidx.emoji2:emoji2:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\46cdcc7574c7c6848e5ecae5bebf4abe\workspace\transformed\emoji2-1.4.0\AndroidManifest.xml:29:13-31:52
+184                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+184-->[androidx.emoji2:emoji2:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\46cdcc7574c7c6848e5ecae5bebf4abe\workspace\transformed\emoji2-1.4.0\AndroidManifest.xml:30:17-75
+185                android:value="androidx.startup" />
+185-->[androidx.emoji2:emoji2:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\46cdcc7574c7c6848e5ecae5bebf4abe\workspace\transformed\emoji2-1.4.0\AndroidManifest.xml:31:17-49
+186            <meta-data
+186-->[androidx.lifecycle:lifecycle-process:2.10.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\61d18ea700f634b7b248da68e6b8b8bf\workspace\transformed\lifecycle-process-2.10.0\AndroidManifest.xml:29:13-31:52
+187                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+187-->[androidx.lifecycle:lifecycle-process:2.10.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\61d18ea700f634b7b248da68e6b8b8bf\workspace\transformed\lifecycle-process-2.10.0\AndroidManifest.xml:30:17-78
+188                android:value="androidx.startup" />
+188-->[androidx.lifecycle:lifecycle-process:2.10.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\61d18ea700f634b7b248da68e6b8b8bf\workspace\transformed\lifecycle-process-2.10.0\AndroidManifest.xml:31:17-49
+189            <meta-data
+189-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:29:13-31:52
+190                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+190-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:30:17-85
+191                android:value="androidx.startup" />
+191-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:31:17-49
+192        </provider>
+193
+194        <receiver
+194-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:34:9-52:20
+195            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+195-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:35:13-76
+196            android:directBootAware="false"
+196-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:36:13-44
+197            android:enabled="true"
+197-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:37:13-35
+198            android:exported="true"
+198-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:38:13-36
+199            android:permission="android.permission.DUMP" >
+199-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:39:13-57
+200            <intent-filter>
+200-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:40:13-42:29
+201                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+201-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:17-91
+201-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:41:25-88
+202            </intent-filter>
+203            <intent-filter>
+203-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:43:13-45:29
+204                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+204-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:17-85
+204-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:44:25-82
+205            </intent-filter>
+206            <intent-filter>
+206-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:46:13-48:29
+207                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+207-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:17-88
+207-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:47:25-85
+208            </intent-filter>
+209            <intent-filter>
+209-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:49:13-51:29
+210                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+210-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:17-95
+210-->[androidx.profileinstaller:profileinstaller:1.4.0] C:\Users\HP\.gradle\caches\9.3.1\transforms\73c203f2275b84ca557bf6c050798f0d\workspace\transformed\profileinstaller-1.4.0\AndroidManifest.xml:50:25-92
+211            </intent-filter>
+212        </receiver>
+213    </application>
+214
+215</manifest>

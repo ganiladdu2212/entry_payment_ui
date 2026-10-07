@@ -16,6 +16,9 @@ export default function DashboardScreen() {
   const { width } = useWindowDimensions();
   const compact = width < 620;
   const customer = useAuthStore(state => state.customer);
+  const displayName = useAuthStore(state => state.displayName);
+  const activeBranch = useAuthStore(state => state.branch);
+  const actorType = useAuthStore(state => state.actorType);
   const clear = useAuthStore(state => state.clear);
   const mode = useThemeStore(state => state.mode);
   const s = useMemo(() => createStyles(mode), [mode]);
@@ -30,7 +33,7 @@ export default function DashboardScreen() {
   ];
 
   return <SafeAreaView edges={['top']} style={s.page}><ScrollView contentContainerStyle={s.content}>
-    <View style={s.header}><View style={s.brandIcon}><Ionicons name="barbell" size={31} color="#001f32" /></View><View style={s.headerCopy}><Text style={s.eyebrow}>ENTRY PAYMENT</Text><Text style={[s.heading, compact && s.headingCompact]}>Welcome, <Text style={s.accent}>{customer?.name || 'Customer'}</Text></Text><Text style={s.subtitle}>Manage your members, subscriptions and attendance.</Text></View></View>
+    <View style={s.header}><View style={s.brandIcon}><Ionicons name="barbell" size={31} color="#001f32" /></View><View style={s.headerCopy}><Text style={s.eyebrow}>ENTRY PAYMENT · {actorType?.replace('_',' ') || 'ACCOUNT'}</Text><Text style={[s.heading, compact && s.headingCompact]}>Welcome, <Text style={s.accent}>{displayName || customer?.name || 'Customer'}</Text></Text><Text style={s.subtitle}>{activeBranch ? `${activeBranch.name} · ${activeBranch.facilityType}` : 'Manage your members, subscriptions and attendance.'}</Text></View></View>
     {!customer ? <View style={s.panel}><Text style={s.title}>Your session has ended</Text><Text style={s.subtitle}>Sign in again to view your dashboard.</Text><Pressable onPress={() => router.replace('/')} style={s.primaryButton}><Text style={s.primaryText}>Go to Login</Text></Pressable></View> : <>
       <LinearGradient colors={mode === 'dark' ? ['#004d65', '#00263d'] : ['#d7fbfc', '#eaf8ff']} style={s.profile}><View style={s.avatar}><Ionicons name="person" size={43} color="#9eefff" /></View><View style={s.profileCopy}><Text style={s.title}>{customer.name || 'Customer'}</Text><Text style={s.organization}>{customer.orgName || 'Your Organization'}</Text><View style={s.memberPill}><Ionicons name="checkmark-circle" size={19} color="#00ead1" /><Text style={s.memberText}>Active Account</Text></View></View><Pressable accessibilityLabel="Open settings" onPress={() => open('/settings')} style={s.profileAction}><Ionicons name="create-outline" size={24} color="#8bdffb" /></Pressable></LinearGradient>
       <View style={s.infoGrid}><Info icon="call-outline" label="Mobile Number" value={customer.mobileNumber ? `+91 ${customer.mobileNumber}` : 'Not provided'} styles={s} /><Info icon="mail-outline" label="Email Address" value={customer.email || 'Not provided'} styles={s} /><Info icon="business-outline" label="Organization" value={customer.orgName || 'Not provided'} styles={s} /><Info icon="calendar-outline" label="Member Since" value={joined} styles={s} /></View>

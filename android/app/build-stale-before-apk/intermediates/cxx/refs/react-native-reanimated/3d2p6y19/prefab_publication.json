@@ -1,0 +1,27 @@
+{
+  "installationFolder": "C:\\Ganesh\\Entry_Payment\\entry_payment_ui\\node_modules\\react-native-reanimated\\android\\build\\intermediates\\prefab_package\\release\\prefab",
+  "gradlePath": ":react-native-reanimated",
+  "packageInfo": {
+    "packageName": "react-native-reanimated",
+    "packageVersion": "4.7.0",
+    "packageSchemaVersion": 2,
+    "packageDependencies": [],
+    "modules": [
+      {
+        "moduleName": "reanimated",
+        "moduleHeaders": "C:\\Ganesh\\Entry_Payment\\entry_payment_ui\\node_modules\\react-native-reanimated\\android\\build\\prefab-headers\\reanimated",
+        "moduleExportLibraries": [],
+        "abis": [
+          {
+            "abiName": "arm64-v8a",
+            "abiApi": 24,
+            "abiNdkMajor": 27,
+            "abiStl": "c++_shared",
+            "abiLibrary": "C:\\Ganesh\\Entry_Payment\\entry_payment_ui\\node_modules\\react-native-reanimated\\android\\build\\intermediates\\cxx\\RelWithDebInfo\\3r6b1pi2\\obj\\arm64-v8a\\libreanimated.so",
+            "abiAndroidGradleBuildJsonFile": "C:\\Ganesh\\Entry_Payment\\entry_payment_ui\\node_modules\\react-native-reanimated\\android\\.cxx\\RelWithDebInfo\\3r6b1pi2\\arm64-v8a\\android_gradle_build.json"
+          }
+        ]
+      }
+    ]
+  }
+}

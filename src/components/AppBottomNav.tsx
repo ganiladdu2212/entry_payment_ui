@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { appPalette } from '@/theme/palette';
 import { useThemeStore } from '@/theme/themeStore';
+import { useAuthStore } from '@/features/auth/authStore';
 
 type NavItem = {
   label: string;
@@ -24,12 +25,19 @@ export function AppBottomNav() {
   const pathname = usePathname();
   const mode = useThemeStore(state => state.mode);
   const styles = createStyles(mode);
+  const actorType = useAuthStore(state => state.actorType);
+  const permissions = useAuthStore(state => state.permissions);
+  const allowed = (path: NavItem['path']) => actorType === 'OWNER' || actorType === 'BRANCH_ADMIN' ||
+    path === '/dashboard' || path === '/settings' ||
+    (path === '/customers' && permissions.includes('MEMBER_VIEW')) ||
+    (path === '/member-registration' && permissions.includes('MEMBER_REGISTER')) ||
+    (path === '/gym-attendance' && permissions.includes('ATTENDANCE_VIEW'));
 
   return (
     <SafeAreaView edges={['bottom']} style={styles.safeArea}>
       <View style={styles.nav}>
-        {items.map((item, index) => {
-          const center = index === 2;
+        {items.filter(item => allowed(item.path)).map((item, index) => {
+          const center = item.path === '/member-registration';
           const active = item.path === pathname || (item.path === '/customers' && pathname === '/customer-details');
           return (
             <Pressable
@@ -57,9 +65,9 @@ export function AppBottomNav() {
 const createStyles = (mode: 'dark' | 'light') => {
   const colors = appPalette(mode);
   return StyleSheet.create({
-  safeArea: { backgroundColor: colors.nav, borderTopWidth: 1, borderTopColor: colors.border },
-  nav: { width: '100%', maxWidth: 1000, alignSelf: 'center', minHeight: 78, flexDirection: 'row', alignItems: 'center', backgroundColor: colors.nav },
-  item: { flex: 1, height: '100%', minWidth: 0, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center', gap: 3 },
+  safeArea: { flexGrow: 0, flexShrink: 0, backgroundColor: colors.nav, borderTopWidth: 1, borderTopColor: colors.border },
+  nav: { width: '100%', maxWidth: 1000, height: 78, alignSelf: 'center', flexDirection: 'row', alignItems: 'center', backgroundColor: colors.nav },
+  item: { flex: 1, height: 78, minWidth: 0, paddingHorizontal: 3, alignItems: 'center', justifyContent: 'center', gap: 3 },
   pressed: { opacity: .65 },
   label: { color: mode === 'dark' ? '#9bc9ff' : '#426b88', fontSize: 11, lineHeight: 15, textAlign: 'center', fontWeight: '600' },
   activeLabel: { color: '#08eff2' },

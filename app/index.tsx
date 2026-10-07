@@ -29,7 +29,7 @@ export default function LoginScreen() {
       return;
     }
     setValidationError(null);
-    login.mutate({ identifier: loginId, password, rememberMe }, { onSuccess: () => router.replace('/dashboard') });
+    login.mutate({ identifier: loginId, password, rememberMe }, { onSuccess: (data) => router.replace(data.mustChangePassword ? '/initial-password' : '/dashboard') });
   };
 
   const error = validationError ?? (login.error instanceof Error ? login.error.message : null);

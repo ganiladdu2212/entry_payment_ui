@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios';
+import { env } from '@/config/env';
 import { apiClient } from '@/lib/apiClient';
 import type { CustomerSubscription } from './subscriptionApi';
 import { normalizePaymentStatus, type PaymentStatus } from './paymentStatus';
@@ -91,7 +92,19 @@ export function subscriptionWhatsAppUrl(user: SavedUser, orgName: string): strin
     ? Math.round(total * Math.min(s.discountValue, 100) / 100)
     : Math.min(s.discountValue, total);
   const amount = Math.max(0, total - reduction);
-  const paymentLink = 'upi://pay?pa=9849546768@ybl&pn=Ganesh&am=' + amount.toFixed(2) + '&cu=INR&tn=Entry%20payment';
+  const transactionReference = `EP${user.userId}${Date.now()}`.slice(0, 35);
+  const paymentParameters = [
+    ['pa', env.upiId],
+    ['pn', env.upiPayeeName],
+    ['tr', transactionReference],
+    ['tn', 'Entry payment'],
+    ['am', amount.toFixed(2)],
+    ['cu', 'INR'],
+    ['mc', '0000'],
+    ['mode', '02'],
+    ['purpose', '00'],
+  ].map(([key, value]) => `${key}=${encodeURIComponent(String(value))}`).join('&');
+  const paymentLink = `upi://pay?${paymentParameters}`;
   const message = [
     'Hello ' + user.name, '',
     'Welcome to ' + orgName, '',

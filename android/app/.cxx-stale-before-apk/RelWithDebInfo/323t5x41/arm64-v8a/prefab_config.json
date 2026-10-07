@@ -1,0 +1,11 @@
+{
+  "enabled": true,
+  "prefabPath": "C:\\Users\\HP\\.gradle\\caches\\modules-2\\files-2.1\\com.google.prefab\\cli\\2.1.0\\aa32fec809c44fa531f01dcfb739b5b3304d3050\\cli-2.1.0-all.jar",
+  "packages": [
+    "C:\\Ganesh\\Entry_Payment\\entry_payment_ui\\node_modules\\react-native-reanimated\\android\\build\\intermediates\\prefab_package\\release\\prefab",
+    "C:\\Ganesh\\Entry_Payment\\entry_payment_ui\\node_modules\\react-native-worklets\\android\\build\\intermediates\\prefab_package\\release\\prefab",
+    "C:\\Users\\HP\\.gradle\\caches\\9.3.1\\transforms\\f8e768d0395983f8046aca9afd27bb43\\workspace\\transformed\\react-android-0.86.0-release\\prefab",
+    "C:\\Users\\HP\\.gradle\\caches\\9.3.1\\transforms\\3fcbcdbcc8e2d17c2f27c919985f30b6\\workspace\\transformed\\hermes-android-250829098.0.14-release\\prefab",
+    "C:\\Users\\HP\\.gradle\\caches\\9.3.1\\transforms\\888f2bb0e6671b092c097f30063cdd87\\workspace\\transformed\\fbjni-0.7.0\\prefab"
+  ]
+}
